@@ -3,17 +3,17 @@ library(dplyr)
 library(data.table)
 ## load datasets
 
-dj <- read.csv("dowjones.csv") # in usd
-gold <- read.csv("gold.csv") # in usd
-snp <- read.csv("snp.csv") # in usd
-nasdaq <- read.csv("nasdaq.csv") ## in usd
-dax <- read.csv("dax.csv") ## in euros
+dj <- read.csv("dowjones.csv", stringsAsFactors = FALSE) # in usd
+gold <- read.csv("gold.csv", stringsAsFactors = FALSE) # in usd
+snp <- read.csv("snp.csv", stringsAsFactors = FALSE) # in usd
+nasdaq <- read.csv("nasdaq.csv", stringsAsFactors = FALSE) ## in usd
+dax <- read.csv("dax.csv", stringsAsFactors = FALSE) ## in euros
 ftse <- read.csv("FTSE.csv", stringsAsFactors = FALSE) ## in gbp
 
 identical(dj$Date, snp$Date)
 
 ## Euro/USD
-eur_usd <- read.csv("eur_us.csv")
+eur_usd <- read.csv("eur_us.csv", stringsAsFactors = FALSE)
 
 ## load usd gbp currency '''''''''''''''''''''''''''''
 usd_gbp <- read.csv("usd_gbp.csv", stringsAsFactors = FALSE)
@@ -21,10 +21,19 @@ str(usd_gbp)
 setnames(usd_gbp, "DATE", "Date")
 setnames(usd_gbp, "RATE", "Rate")
 
-
 ## Data Wrangling
 
-## renaming of columns in dataframes
+## change to date format
+
+usd_gbp$Date <- as.Date(usd_gbp$Date, format= "%Y-%m-%d")
+eur_usd$Date <- as.Date(eur_usd$Date, format= "%Y-%m-%d")
+dj$Date <- as.Date(dj$Date, format= "%Y-%m-%d")
+snp$Date <- as.Date(snp$Date, format= "%Y-%m-%d")
+nasdaq$Date <- as.Date(nasdaq$Date, format= "%Y-%m-%d")
+gold$Date <- as.Date(gold$Date, format= "%Y-%m-%d")
+dax$Date <- as.Date(dax$Date, format= "%Y-%m-%d")
+
+
 
 '''
 # Dow Jones Data ---------------------------------------------------------------
@@ -89,13 +98,13 @@ setnames(gold, "Value", "gold_close_usd")
 str(gold_cur)
 
 ##merge with eur_usd
-gold_cur <- merge(gold, eur_usd, all=TRUE)
+gold_cur <- merge(gold_cur, eur_usd, all=TRUE)
 
 ## create column for gold price in eur
 gold_cur$gold_close_eur <- gold_cur$gold_close_usd * gold_cur$Value
 
 ## merge with usd_gbp
-gold_cur <- merge(gold_cur, usd_gbp, all=TRUE)
+gold_cur <- merge(gold, usd_gbp, all=TRUE)
 
 ## create column for gold price in gbp
 gold_cur$gold_close_gbp <- gold_cur$gold_close_usd * gold_cur$Rate
@@ -168,12 +177,13 @@ dax_cur <- dax_cur[ , !(names(dax_cur) %in% drops_dax)]
 # drop rows with missing values
 dax_cur <- na.omit(dax_cur)
 
+
+
 '''
 FTSE Data ----------------------------------------------------------------------
 '''
-
-
 str(ftse)
+str(usd_gbp)
 
 #Change Date Format
 ftse$Date <- as.Date(ftse$Date, format = "%d-%B-%Y") 
@@ -206,24 +216,32 @@ ftse$Date[108] <- "2016-10-31"
 
 ## Reverse Rows of data frame to match structure of the others
 ftse <- arrange(ftse, -row_number())
-str(ftse)
+str(ftse_cur)
 
+## rename column
+setnames(ftse, "Close.Price", "ftse_close_gbp")
 
-
-## merge data frames 
+## merge with usd_gbp
 ftse_cur <- merge(ftse, usd_gbp, all=TRUE)
 
-## create column for ftse in Gbp
-ftse_cur$ftse_close_in_usd <- ftse_cur$Close.Price / ftse_cur$RATE
+# create column for ftse in usd
 
-ftse_cur <- arrange(ftse_cur, -row_number())
-setnames(ftse_cur, "Close.Price", "ftse_close_in_gbp")
+ftse_cur$ftse_close_usd <- ftse_cur$ftse_close_gbp / ftse_cur$Rate 
+
+## merge data frames -----------------------------------------------------
+
+ftse_cur <- merge(ftse_cur, eur_usd, all=TRUE)
 
 str(ftse_cur)
+str(eur_usd)
+str(usd_gbp)
+
+## create column for ftse in eur
+ftse_cur$ftse_close_in_eur <- ftse_cur$ftse_close_usd * ftse_cur$Value
 
 ## drop selected columns
 drops_ftse <- c("Open.Price", "High.Price", "Low.Price", "Volume", 
-               "RATE")
+               "Rate", "Value")
 ftse_cur <- ftse_cur[ , !(names(ftse_cur) %in% drops_ftse)]
 
 # remove rows with missing values
@@ -232,7 +250,21 @@ ftse_cur <- na.omit(ftse_cur)
 
 ## join dataframes
 
-dj_snp <- merge(dj, snp, all = TRUE)
-dj_snp_g <- merge(dj_snp, gold, all = TRUE)
-dj_snp_g_n <- merge(dj_snp_g, nasdaq, all=TRUE)
+dj_snp <- merge(dj_cur, snp_cur, all = TRUE)
+dj_snp_g <- merge(dj_snp, gold_cur, all = TRUE)
+dj_snp_g_n <- merge(dj_snp_g, nasdaq_cur, all=TRUE)
 dj_snp_g_n_d <- merge(dj_snp_g_n, dax_cur, all=TRUE)
+graph_data <- merge(dj_snp_g_n_d, ftse_cur, all=TRUE)
+
+### Checking data for plausibility - one error identified in original dataset
+graph_data[62,]
+
+summary(graph_data)
+
+## changing errors manually to NA's
+graph_data$snp_close_usd[62] <- NA
+graph_data$snp_close_eur[62] <- NA
+graph_data$snp_close_gbp[62] <- NA
+
+## save to csv
+write.csv(graph_data, 'graph_data.csv', row.names=FALSE)
