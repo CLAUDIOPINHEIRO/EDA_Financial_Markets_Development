@@ -3,55 +3,176 @@ library(dplyr)
 library(data.table)
 ## load datasets
 
-dj <- read.csv("dowjones.csv")
-gold <- read.csv("gold.csv")
-snp <- read.csv("snp.csv")
-nasdaq <- read.csv("nasdaq.csv")
+dj <- read.csv("dowjones.csv") # in usd
+gold <- read.csv("gold.csv") # in usd
+snp <- read.csv("snp.csv") # in usd
+nasdaq <- read.csv("nasdaq.csv") ## in usd
+dax <- read.csv("dax.csv") ## in euros
+ftse <- read.csv("FTSE.csv", stringsAsFactors = FALSE) ## in gbp
 
 identical(dj$Date, snp$Date)
+
+## Euro/USD
+eur_usd <- read.csv("eur_us.csv")
+
+## load usd gbp currency '''''''''''''''''''''''''''''
+usd_gbp <- read.csv("usd_gbp.csv", stringsAsFactors = FALSE)
+str(usd_gbp)
+setnames(usd_gbp, "DATE", "Date")
+setnames(usd_gbp, "RATE", "Rate")
+
 
 ## Data Wrangling
 
 ## renaming of columns in dataframes
 
-# Dow Jones Dataset
+'''
+# Dow Jones Data ---------------------------------------------------------------
+'''
 #dj$dj_date <- dj$Date
-dj$dj_close <- dj$Close
+dj$dj_close_usd <- dj$Close
 
-drops <- c("High", "Low", "Close", "Volume", "Open", "Adjusted.Close")
-dj <- dj[ , !(names(dj) %in% drops)]
+dj_cur <- merge(dj, eur_usd, all=TRUE)
+str(dj_cur)
 
-# S&P Dataset
+## create column for dj closing rate in euro currency
+dj_cur$dj_close_eur <- dj_cur$dj_close_usd * dj_cur$Value
+
+## create column for dj closing rate in gbp currency
+dj_cur <- merge(dj_cur, usd_gbp, all=TRUE)
+
+dj_cur$dj_close_gbp <- dj_cur$dj_close_usd * dj_cur$Rate
+
+## drop columns
+drops <- c("High", "Low", "Close", "Volume", "Open", "Adjusted.Close",
+           "Value", "Rate")
+dj_cur <- dj_cur[ , !(names(dj_cur) %in% drops)]
+
+# drop rows with missing values
+dj_cur <- na.omit(dj_cur)
+
+
+'''
+# S&P Data -----------------------------------------------------------------
+'''
 
 #snp$snp_date <- snp$Date
-snp$snp_close <- snp$Close
-snp <- snp[ , !(names(snp) %in% drops)]
+snp$snp_close_usd <- snp$Close
+
+## merge with eur currency data frame
+
+snp_cur <- merge(snp, eur_usd, all=TRUE)
+str(snp_cur)
+
+## create new column for snp in Eur
+snp_cur$snp_close_eur <- snp_cur$snp_close_usd *snp_cur$Value
+
+## merge with gbp data frame
+snp_cur <- merge(snp_cur, usd_gbp, all=TRUE)
+
+## create new column for snp in gbp
+snp_cur$snp_close_gbp <- snp_cur$snp_close_usd * snp_cur$Rate
+
+## drop columns
+snp_cur <- snp_cur[ , !(names(snp_cur) %in% drops)]
+
+# drop missing values
+snp_cur <- na.omit(snp_cur)
+
+
+'''
+Gold Data -------------------------------------------------------------------
+'''
 
 ## Gold
-setnames(gold, "Value", "gold_close")
+setnames(gold, "Value", "gold_close_usd")
+str(gold_cur)
+
+##merge with eur_usd
+gold_cur <- merge(gold, eur_usd, all=TRUE)
+
+## create column for gold price in eur
+gold_cur$gold_close_eur <- gold_cur$gold_close_usd * gold_cur$Value
+
+## merge with usd_gbp
+gold_cur <- merge(gold_cur, usd_gbp, all=TRUE)
+
+## create column for gold price in gbp
+gold_cur$gold_close_gbp <- gold_cur$gold_close_usd * gold_cur$Rate
+
+## drop columns
+drop_gold <- c("Value", "Rate")
+
+gold_cur <- gold_cur[ , !(names(gold_cur) %in% drop_gold)]
+
+## drop missing values
+gold_cur <- na.omit(gold_cur)
+
+'''
+Nasdaq Data --------------------------------------------------------------------
+'''
 
 ## Nasdaq
 
 str(nasdaq)
-setnames(nasdaq, "Value", "nasdaq_close")
+setnames(nasdaq, "Value", "nasdaq_close_usd")
 
-## DAX in Euros
-dax <- read.csv("dax.csv")
-## Euro/USD
-eur_usd <- read.csv("eur_us.csv")
+## merge with eur_usd
 
+nasdaq_cur <- merge(nasdaq, eur_usd, all=TRUE)
+str(nasdaq_cur)
+
+## create new column for nasdaq in eur
+nasdaq_cur$nasdaq_close_eur <- nasdaq_cur$nasdaq_close_usd * nasdaq_cur$Value
+
+## merge with usd_gbp
+nasdaq_cur <- merge(nasdaq_cur, usd_gbp, all=TRUE)
+
+## create new column for nasdaq in gbp
+nasdaq_cur$nasdaq_close_gbp <- nasdaq_cur$nasdaq_close_usd * nasdaq_cur$Rate
+
+## drop columns
+drop_nas <- c("Value", "Rate")
+
+nasdaq_cur <- nasdaq_cur[ , !(names(nasdaq_cur) %in% drop_nas)]
+
+## drop rows with missing values
+nasdaq_cur <- na.omit(nasdaq_cur)
+
+'''
+Dax Data-----------------------------------------------------------------------
+'''
+str(dax_cur)
 ## Merge data frames
 dax_cur <- merge(dax, eur_usd, all=TRUE)
+
+## change column name
+setnames(dax_cur, "Close", "dax_close_eur")
+
 ## Create new Column for Dax adjusted to daily Euro/Dollar Currency Exchange Rate
-dax_cur$Dax_Close_in_USD <- dax_cur$Close * dax_cur$Value
+dax_cur$dax_close_in_usd <- dax_cur$dax_close_eur / dax_cur$Value
+
+## merge with usd_gbp
+dax_cur <- merge(dax_cur, usd_gbp, all=TRUE)
+
+## create new column for dax in gbp
+dax_cur$dax_close_gbp <- dax_cur$dax_close_in_usd * dax_cur$Rate
+str(dax_cur)
+
+## drop columns
 
 drops_dax <- c("Open", "High", "Low", "Volume", 
-               "Adjusted.Close", "Value", "Close")
+               "Adjusted.Close", "Value", "Close", "Rate")
 dax_cur <- dax_cur[ , !(names(dax_cur) %in% drops_dax)]
 
+# drop rows with missing values
+dax_cur <- na.omit(dax_cur)
 
-## FTSE
-ftse <- read.csv("FTSE.csv", stringsAsFactors = FALSE)
+'''
+FTSE Data ----------------------------------------------------------------------
+'''
+
+
 str(ftse)
 
 #Change Date Format
@@ -87,14 +208,7 @@ ftse$Date[108] <- "2016-10-31"
 ftse <- arrange(ftse, -row_number())
 str(ftse)
 
-## load usd gbp currency '''''''''''''''''''''''''''''
-usd_gbp <- read.csv("usd_gbp.csv", stringsAsFactors = FALSE)
-str(usd_gbp)
-setnames(usd_gbp, "DATE", "Date")
-setnames(usd_gbp, "RATE", "Rate")
 
-usd_gbp$Date = as.Date(usd_gbp$Date, format = "%Y-%m-%d") 
-str(usd_gbp)
 
 ## merge data frames 
 ftse_cur <- merge(ftse, usd_gbp, all=TRUE)
