@@ -52,25 +52,68 @@ dax_cur <- dax_cur[ , !(names(dax_cur) %in% drops_dax)]
 
 ## FTSE
 ftse <- read.csv("FTSE.csv", stringsAsFactors = FALSE)
+str(ftse)
+
 #Change Date Format
-ftse$Date <- as.POSIXct(ftse$Date, format = "%d-%B-%Y") 
+ftse$Date <- as.Date(ftse$Date, format = "%d-%B-%Y") 
+
+## for some reason, changing the date format leads to missing values for the
+## month of october. Not the best solution but entering the missing values
+## by hand
+
+ftse$Date[88] <- "2016-10-03"
+ftse$Date[89] <- "2016-10-04"
+ftse$Date[90] <- "2016-10-05"
+ftse$Date[91] <- "2016-10-06"
+ftse$Date[92] <- "2016-10-07"
+ftse$Date[93] <- "2016-10-10"
+ftse$Date[94] <- "2016-10-11"
+ftse$Date[95] <- "2016-10-12"
+ftse$Date[96] <- "2016-10-13"
+ftse$Date[97] <- "2016-10-14"
+ftse$Date[98] <- "2016-10-17"
+ftse$Date[99] <- "2016-10-18"
+ftse$Date[100] <- "2016-10-19"
+ftse$Date[101] <- "2016-10-20"
+ftse$Date[102] <- "2016-10-21"
+ftse$Date[103] <- "2016-10-24"
+ftse$Date[104] <- "2016-10-25"
+ftse$Date[105] <- "2016-10-26"
+ftse$Date[106] <- "2016-10-27"
+ftse$Date[107] <- "2016-10-28"
+ftse$Date[108] <- "2016-10-31"
+
+## Reverse Rows of data frame to match structure of the others
+ftse <- arrange(ftse, -row_number())
+str(ftse)
 
 ## load usd gbp currency '''''''''''''''''''''''''''''
 usd_gbp <- read.csv("usd_gbp.csv", stringsAsFactors = FALSE)
 str(usd_gbp)
 setnames(usd_gbp, "DATE", "Date")
-usd_gbp$DATE = as.POSIXct(usd_gbp$DATE, format = "%Y-%m-%d") 
+setnames(usd_gbp, "RATE", "Rate")
 
+usd_gbp$Date = as.Date(usd_gbp$Date, format = "%Y-%m-%d") 
+str(usd_gbp)
 
 ## merge data frames 
 ftse_cur <- merge(ftse, usd_gbp, all=TRUE)
 
-str(ftse_cur)
+## create column for ftse in Gbp
 ftse_cur$ftse_close_in_usd <- ftse_cur$Close.Price / ftse_cur$RATE
 
-head()
+ftse_cur <- arrange(ftse_cur, -row_number())
+setnames(ftse_cur, "Close.Price", "ftse_close_in_gbp")
 
+str(ftse_cur)
 
+## drop selected columns
+drops_ftse <- c("Open.Price", "High.Price", "Low.Price", "Volume", 
+               "RATE")
+ftse_cur <- ftse_cur[ , !(names(ftse_cur) %in% drops_ftse)]
+
+# remove rows with missing values
+ftse_cur <- na.omit(ftse_cur)
 
 
 ## join dataframes
