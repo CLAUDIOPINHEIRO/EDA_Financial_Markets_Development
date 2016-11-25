@@ -98,13 +98,13 @@ setnames(gold, "Value", "gold_close_usd")
 str(gold_cur)
 
 ##merge with eur_usd
-gold_cur <- merge(gold_cur, eur_usd, all=TRUE)
+gold_cur <- merge(gold, eur_usd, all=TRUE)
 
 ## create column for gold price in eur
 gold_cur$gold_close_eur <- gold_cur$gold_close_usd * gold_cur$Value
 
 ## merge with usd_gbp
-gold_cur <- merge(gold, usd_gbp, all=TRUE)
+gold_cur <- merge(gold_cur, usd_gbp, all=TRUE)
 
 ## create column for gold price in gbp
 gold_cur$gold_close_gbp <- gold_cur$gold_close_usd * gold_cur$Rate
@@ -268,3 +268,115 @@ graph_data$snp_close_gbp[62] <- NA
 
 ## save to csv
 write.csv(graph_data, 'graph_data.csv', row.names=FALSE)
+
+
+'''
+Preplotting of data before d3js and dimple
+
+'''
+graph_data_nmv <- na.omit(graph_data)
+
+write.csv(graph_data_nmv, 'graph_data_nmv.csv', row.names=FALSE)
+
+ggplot(aes(x=Date), data=graph_data_nmv) +
+  geom_line(aes(y= dj_close_usd, group=1))+
+  geom_line(aes(y=dj_close_eur, group=1)) +
+  geom_line(aes(y=dj_close_gbp, group=1))+
+  theme_economist()
+
+str(graph_data_nmv)
+
+
+--------------------------
+  
+# creating data frame with relative growth rates
+
+data <- graph_data_nmv
+  
+growth <- function(x)x/lag(x)-1
+
+data <- data %>% 
+        mutate_each(funs(growth), dj_close_usd, dj_close_eur, dj_close_gbp,
+                    snp_close_gbp, snp_close_eur, snp_close_usd,
+                    gold_close_gbp, gold_close_eur, gold_close_usd,
+                    nasdaq_close_gbp, nasdaq_close_usd, nasdaq_close_eur,
+                    dax_close_gbp, dax_close_in_usd, dax_close_eur,
+                    ftse_close_in_eur, ftse_close_usd, ftse_close_gbp)
+data <- na.omit(data)
+
+### using reshape to change structuring of data
+
+library(reshape2)
+
+### create sub data frames
+data_dj <- data[ , c("Date", "dj_close_usd", "dj_close_eur", "dj_close_gbp")]
+data_snp <- data[ , c("Date", "snp_close_usd", "snp_close_eur", "snp_close_gbp")]
+data_gold <- data[ , c("Date","gold_close_usd", "gold_close_eur", "gold_close_gbp")]
+data_nasdaq <- data[ , c("Date","nasdaq_close_usd", "nasdaq_close_eur", "nasdaq_close_gbp")]
+data_dax <- data[ , c("Date","dax_close_in_usd", "dax_close_eur", "dax_close_gbp")]
+data_ftse <- data[ , c("Date","ftse_close_usd", "ftse_close_in_eur", "ftse_close_gbp")]
+
+### reshape data frames from long to wide format
+##dj
+data_dj <- melt(data_dj, id.vars = c("Date"))
+data_dj$currency <- ifelse(data_dj$variable == "dj_close_usd", "USD",
+                    ifelse(data_dj$variable == "dj_close_eur", "EUR",
+                    ifelse(data_dj$variable == "dj_close_gbp", "GBP", "-")))
+data_dj <- data_dj[ , !(names(data_dj) %in% c("variable"))]
+setnames(data_dj, "value", "dj_close")
+
+
+##snp
+data_snp <- melt(data_snp, id.vars = c("Date"))
+data_snp$currency <- ifelse(data_snp$variable == "snp_close_usd", "USD",
+                     ifelse(data_snp$variable == "snp_close_eur", "EUR",
+                     ifelse(data_snp$variable == "snp_close_gbp", "GBP", "-")))
+data_snp <- data_snp[ , !(names(data_snp) %in% c("variable"))]
+setnames(data_snp, "value", "snp_close")
+
+
+##gold
+data_gold <- melt(data_gold, id.vars = c("Date"))
+data_gold$currency <- ifelse(data_gold$variable == "gold_close_usd", "USD",
+                      ifelse(data_gold$variable == "gold_close_eur", "EUR",
+                      ifelse(data_gold$variable == "gold_close_gbp", "GBP", "-")))
+data_gold <- data_gold[ , !(names(data_gold) %in% c("variable"))]
+setnames(data_gold, "value", "gold_close")
+
+##dax
+data_dax <- melt(data_dax, id.vars=c("Date"))
+data_dax$currency <- ifelse(data_dax$variable == "dax_close_in_usd", "USD",
+                     ifelse(data_dax$variable == "dax_close_eur", "EUR",
+                     ifelse(data_dax$variable == "dax_close_gbp", "GBP", "-")))
+data_dax <- data_dax[ , !(names(data_dax) %in% c("variable"))]
+setnames(data_dax, "value", "dax_close")
+
+##nasdaq
+data_nasdaq <- melt(data_nasdaq, id.vars = c("Date"))
+data_nasdaq$currency <- ifelse(data_nasdaq$variable == "nasdaq_close_usd", "USD",
+                        ifelse(data_nasdaq$variable == "nasdaq_close_eur", "EUR",
+                        ifelse(data_nasdaq$variable == "nasdaq_close_gbp", "GBP", "-")))
+data_nasdaq <- data_nasdaq[ , !(names(data_nasdaq) %in% c("variable"))]
+setnames(data_nasdaq, "value", "nasdaq_close")
+
+## ftse
+data_ftse <- melt(data_ftse, id.vars = c("Date"))
+data_ftse$currency <- ifelse(data_ftse$variable == "ftse_close_usd", "USD",
+                      ifelse(data_ftse$variable == "ftse_close_in_eur", "EUR",
+                      ifelse(data_ftse$variable == "ftse_close_gbp", "GBP", "-")))
+data_ftse <- data_ftse[ , !(names(data_ftse) %in% c("variable"))]
+setnames(data_ftse, "value", "ftse_close")
+
+## merge data frames
+
+one <- merge(data_dj, data_snp, all=TRUE)
+two <- merge(one, data_gold, all=TRUE)
+three <- merge(two, data_dax, all=TRUE)
+four <- merge(three, data_nasdaq, all=TRUE)
+data_merge <- merge(four, data_ftse, all=TRUE)
+
+
+
+table(data_merge$currency)
+
+write.csv(data_merge, 'data.csv', row.names=FALSE)
