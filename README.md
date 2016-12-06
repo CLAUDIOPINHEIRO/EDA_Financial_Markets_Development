@@ -87,11 +87,18 @@ http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html
 ## Data
 
 Dow Jones: https://www.quandl.com/data/YAHOO/INDEX_DJ
+
 S&P: https://www.quandl.com/data/GOOG/LON_IGUS
+
 DAX: https://www.quandl.com/data/YAHOO/INDEX_GDAXI
+
 FTSE: http://www.digitallook.com/index/FTSE_250/prices/download
+
 NASDAQ: https://indexes.nasdaqomx.com/Index/Overview/COMP
+
 Gold: https://www.quandl.com/data/WGC/GOLD_DAILY_USD
 
+
 EUR/USD: https://www.quandl.com/data/BOE/XUDLERD
+
 USD/GBP: https://www.quandl.com/data/CUR/GBP
