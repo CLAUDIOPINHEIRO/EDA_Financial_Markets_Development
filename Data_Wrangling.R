@@ -33,8 +33,6 @@ nasdaq$Date <- as.Date(nasdaq$Date, format= "%Y-%m-%d")
 gold$Date <- as.Date(gold$Date, format= "%Y-%m-%d")
 dax$Date <- as.Date(dax$Date, format= "%Y-%m-%d")
 
-
-
 '''
 # Dow Jones Data ---------------------------------------------------------------
 '''
