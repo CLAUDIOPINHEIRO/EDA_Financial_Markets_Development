@@ -14,7 +14,7 @@ This visualisation project began with a question:
 
 In the final visualisation, the viewer is invited to explore this question freely by choosing the currency lens as well as the indexes to be highlighted. 
 
-Three main aspects in the data are highlighted here:
+Three main aspects in the data:
 
 1. During the days of the Brexit Referendum (looking through the currency lens of US Dollars), all indexes suffered daily losses that were more severe than the general noise of ups and downs you would normaly observe. These drops in the indexes shortly after recovered to the normal pattern again. At the same time, the price for Gold went up. One interpretation for this can be, that an "unexpected" outcome of a socio-economic event can lead to more perceived uncertainty in the markets which leads to indexes falling in price, while Gold being perceived as a more stable and secure investment and therefore going up. 
 
