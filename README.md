@@ -10,7 +10,7 @@ The final visualisation on blocks: https://bl.ocks.org/MertonBoerlin/141fdf83757
 
 This visualisation project began with a simple question: 
 
->How did financial markets progress during the time frame of the brexit referendum (2016-06-23) and the US election (2016-11-08)?
+**How did financial markets progress during the time of the Brexit Referendum and the US Election?**
 
 In order to visualise this with d3js, financial market data had to be attained from different sources. This was done using the [Quandl-Plattform](https://www.quandl.com/). Data for the daily progressions of the indexes DAX , S&P, Nasdaq, FTSE and Dow Jones were retrieved as well as the daily development of Gold price and the currency pairs USD/EUR, USD/GBP. 
 
@@ -21,7 +21,7 @@ Through [Data Wrangling with R](https://github.com/MertonBoerlin/EDA_Financial_M
 With the visualisation the viewer is invited to investigate patterns of interest freely through selection of indexes and a currency lens.
 
 As some patterns may be subtle and need more data analysis and further investigation, through the visualisation two insights stick out:
-
+During the Brexit-Referendum, market 
 
 
 
