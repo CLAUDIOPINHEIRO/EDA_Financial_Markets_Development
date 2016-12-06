@@ -4,7 +4,7 @@ Basic Exploration: Development of selected Financial Markets during Brexit and U
 
 
 ## Final Visualisation
-The final visualisation can be accessed under: https://bl.ocks.org/MertonBoerlin/141fdf837579e2fe2c5d2da0303dbddb
+The final visualisation can be accessed under: http://bl.ocks.org/MertonBoerlin/raw/ac1ef350c4b571a7a69b7f74d6249e92/
 
 ## Summary
 
@@ -30,19 +30,20 @@ Through [Data Wrangling with R](https://github.com/MertonBoerlin/EDA_Financial_M
 
 ## Design
 
-As a design, object constancy with multiple sets of time series were chosen. The viewer can select the indexes by marking them and in a second step selecting the currency lens in a menu. By changing the lens, the data will automatically and seemlessly adapt.    
+As a design, a multi-series line chart with object constancy was chosen. The viewer can select the indexes by marking them and in a second step selecting the currency lens in a menu. By changing the lens, the data will automatically and seemlessly adapt. 
 
+As an alternative, a visualisation via boxplots or barcharts might have also worked for making the degree of change for different indexes visible. For plotting the daily change of multiple indexes simultaneously, a line chart design works well, reduces visual complexity and was therefore chosen.
 
 ## Feedback
 
-The first visualisation ([index1.html](https://github.com/MertonBoerlin/EDA_Financial_Markets_Development/blob/master/index1.html)) was shared in the udacity forum as well as three friends from a shared coworking space.
+The first visualisation ([index1.html](https://github.com/MertonBoerlin/EDA_Financial_Markets_Development/blob/master/index1.html)) was shared in the udacity forum as well as with three friends from a shared coworking space.
 
 There was positive and negative feedback. Suggestions for improvement were:
 
 - label the y-axis 
 - convert data from overall price to daily change
 
-Through the help of a truly awesome udacity forum mentor, some debugging in regard to object constancy were implemented.
+Through the help of a truly awesome udacity forum mentor, some debugging in regard to object constancy was implemented.
 
 ## References
 
