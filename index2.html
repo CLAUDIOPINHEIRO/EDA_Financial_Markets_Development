@@ -68,7 +68,7 @@ body {
        .interpolate("basis")
        .x(function(d) { return x(d.Date); })
        .y(function(d) { return y(d.stat); });
-    
+  
     // add svg box    
     var svg = d3.select("body").append("svg")
         .attr("width", w + margin.left + margin.right)
