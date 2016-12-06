@@ -32,7 +32,7 @@ Through [Data Wrangling with R](https://github.com/MertonBoerlin/EDA_Financial_M
 
 As a design, a multi-series line chart with object constancy was chosen. The viewer can select the indexes by marking them and in a second step selecting the currency lens in a menu. By changing the lens, the data will automatically and seemlessly adapt. 
 
-As an alternative, a visualisation via boxplots or barcharts might have also worked for making the degree of change for different indexes visible. For plotting the daily change of multiple indexes simultaneously, a line chart design works well, reduces visual complexity and was therefore chosen.
+As an alternative, a visualisation via boxplots or barcharts might have also worked in making the degree of change for different indexes visible. For plotting the daily change of multiple indexes simultaneously, a line chart design works well, reduces visual complexity and was therefore chosen.
 
 ## Feedback
 
