@@ -32,7 +32,7 @@ body {
 </style>
 </head>
 <body>
-<h2>Financial Markets and Socio-Economic Events</h2>
+<h2>Daily Change of Financial Markets during Socio-Economic Events</h2>
 <div>
       <b>Pick Index:</b><br>
       <input type="checkbox" id="dj" onclick="djlight()">Dow Jones</input>
@@ -99,8 +99,8 @@ body {
                     .style("stroke-dasharray", ("3, 3"))
                     .attr("y1", 5)
                     .attr("y2", h)
-                    .attr("x1", 95)
-                    .attr("x2", 95)
+                    .attr("x1", 90)
+                    .attr("x2", 90)
 
     var brexit_label = svg.append("text")         // append text
                           .style("fill", "black")   // fill the text with the colour black
@@ -124,7 +124,7 @@ body {
 
     var y_label = svg.append("text")
                      .attr("transform", "rotate(-90)")
-                     .attr("y", -50 )
+                     .attr("y", -55 )
                      .attr("x",-5 - (h / 2))
                      .attr("dy", "1em")
                      .style("text-anchor", "middle")
