@@ -24,7 +24,7 @@ Three main aspects in the data:
 
 ## Process
 
-Financial market data had to be collected from different sources. This was done using the [Quandl-Plattform](https://www.quandl.com/). Data for the daily progressions of the indexes DAX , S&P, Nasdaq, FTSE and Dow Jones were retrieved as well as the daily development of Gold price and the currency pairs USD/EUR, USD/GBP. 
+Financial market data was collected from different sources. This was done using the [Quandl-Plattform](https://www.quandl.com/). Data for the daily progressions of the indexes DAX , S&P, Nasdaq, FTSE and Dow Jones were retrieved as well as the daily development of Gold price and the currency pairs USD/EUR, USD/GBP. 
 
 Through [Data Wrangling with R](https://github.com/MertonBoerlin/EDA_Financial_Markets_Development/blob/master/Data_Wrangling.R), a single csv file was created including info on the daily change in price of the above stated indexes and gold in regard to different currencies.
 
@@ -84,3 +84,14 @@ http://stackoverflow.com/questions/24446465/d3-dashed-line-from-a-datapoint-to-a
 
 http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html
 
+## Data
+
+Dow Jones: https://www.quandl.com/data/YAHOO/INDEX_DJ
+S&P: https://www.quandl.com/data/GOOG/LON_IGUS
+DAX: https://www.quandl.com/data/YAHOO/INDEX_GDAXI
+FTSE: http://www.digitallook.com/index/FTSE_250/prices/download
+NASDAQ: https://indexes.nasdaqomx.com/Index/Overview/COMP
+Gold: https://www.quandl.com/data/WGC/GOLD_DAILY_USD
+
+EUR/USD: https://www.quandl.com/data/BOE/XUDLERD
+USD/GBP: https://www.quandl.com/data/CUR/GBP
