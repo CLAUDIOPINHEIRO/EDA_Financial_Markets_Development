@@ -4,29 +4,45 @@ Basic Exploration: Development of selected Financial Markets during Brexit and U
 
 
 ## Final Visualisation
-The final visualisation on blocks: https://bl.ocks.org/MertonBoerlin/141fdf837579e2fe2c5d2da0303dbddb
-
-## Process
-
-This visualisation project began with a simple question: 
-
-**How did financial markets progress during the time of the Brexit Referendum and the US Election?**
-
-In order to visualise this with d3js, financial market data had to be attained from different sources. This was done using the [Quandl-Plattform](https://www.quandl.com/). Data for the daily progressions of the indexes DAX , S&P, Nasdaq, FTSE and Dow Jones were retrieved as well as the daily development of Gold price and the currency pairs USD/EUR, USD/GBP. 
-
-Through [Data Wrangling with R](https://github.com/MertonBoerlin/EDA_Financial_Markets_Development/blob/master/Data_Wrangling.R), a single csv file was created that had info on the daily price progression of the indexes and gold through the lens of different currencies
+The final visualisation can be accessed under: https://bl.ocks.org/MertonBoerlin/141fdf837579e2fe2c5d2da0303dbddb
 
 ## Summary
 
-With the visualisation the viewer is invited to investigate patterns of interest freely through selection of indexes and a currency lens.
+This visualisation project began with a question: 
 
-As some patterns may be subtle and need more data analysis and further investigation, through the visualisation two insights stick out:
-During the Brexit-Referendum, market 
+**How did financial markets develop during the Brexit Referendum and the US Election?**
+
+In the final visualisation, the viewer is invited to explore this question freely by choosing the currency lens as well as the indexes to be highlighted. 
+
+Three main aspects in the data are highlighted here:
+
+1. During the days of the Brexit Referendum (looking through the currency lens of US Dollars), all indexes suffered daily losses that were more severe than the general noise of ups and downs you would normaly observe. These drops in the indexes shortly after recovered to the normal pattern again. At the same time, the price for Gold went up. One interpretation for this can be, that an "unexpected" outcome of a socio-economic event can lead to more perceived uncertainty in the markets which leads to indexes falling in price, while Gold being perceived as a more stable and secure investment and therefore going up. 
+
+2. If the currency lens is changed to British Pound an interesting effect can be observed. US Indexes gained in price and did not suffer losses during the Brexit Referendum. This can be explained by the British Pound falling in Price in regard to US Dollar. This drop in currency price was so strong for British Pound and US Dollar, that it outbalanced the drop of US Indexes, turning a daily negative change in USD to a positive change when looking at GBP.  
+
+3. Comparing the changes of financial market prices between the Brexit Referendum and US Election, the change during the US Election was not as strong as during the Brexit Referendum.
+
+## Process
+
+Financial market data had to be collected from different sources. This was done using the [Quandl-Plattform](https://www.quandl.com/). Data for the daily progressions of the indexes DAX , S&P, Nasdaq, FTSE and Dow Jones were retrieved as well as the daily development of Gold price and the currency pairs USD/EUR, USD/GBP. 
+
+Through [Data Wrangling with R](https://github.com/MertonBoerlin/EDA_Financial_Markets_Development/blob/master/Data_Wrangling.R), a single csv file was created including info on the daily change in price of the above stated indexes and gold in regard to different currencies.
+
+## Design
+
+As a design, object constancy with multiple sets of time series were chosen. The viewer can select the indexes by marking them and in a second step selecting the currency lens in a menu. By changing the lens, the data will automatically and seemlessly adapt.    
 
 
+## Feedback
 
+The first visualisation ([index1.html](https://github.com/MertonBoerlin/EDA_Financial_Markets_Development/blob/master/index1.html)) was shared in the udacity forum as well as three friends from a shared coworking space.
 
-Summary, Design, Feedback, and Resources
+There was positive and negative feedback. Suggestions for improvement were:
+
+- label the y-axis 
+- convert data from overall price to daily change
+
+Through the help of a truly awesome udacity forum mentor, some debugging in regard to object constancy were implemented.
 
 ## References
 
