@@ -36,14 +36,13 @@ As an alternative, a visualisation via boxplots or barcharts might have also wor
 
 ## Feedback
 
-The first visualisation ([index1.html](https://github.com/MertonBoerlin/EDA_Financial_Markets_Development/blob/master/index1.html)) was shared in the udacity forum as well as with three friends from a shared coworking space.
+The first visualisation ([index1.html](https://github.com/MertonBoerlin/EDA_Financial_Markets_Development/blob/master/index1.html)) was shared in the udacity forum as well as with three friends from a shared coworking space. In the Udacity Forum, no written Feedback was received in the feedback-thread.
 
-There was positive and negative feedback. Suggestions for improvement were:
+When I asked three friends to review the visualisation, there was positive and negative oral feedback. Positive feedback was received from Reviewer A. Reviewer A liked the overall strategy, to look at the development of financial markets through the lens of different currencies and gave a thumbs up!
 
-- label the y-axis 
-- convert data from overall price to daily change
+When giving Reviewer B and Reviewer C the choice between a visualisation of the overall development vs. the daily change of the financial markets, both were in favor of daily change. Hence, the converted data portraying the daily change was used in the final visualisation.
 
-Through the help of a truly awesome udacity forum mentor, some debugging in regard to object constancy was implemented.
+Through the help of a truly awesome udacity forum mentor, some debugging in regard to object constancy was also implemented. Before, object constancy was not implemented the right was, adding another line and not adjusting the existing line of a financial market accordingly. 
 
 ## References
 
