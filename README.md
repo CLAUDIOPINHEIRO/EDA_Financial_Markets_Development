@@ -45,11 +45,11 @@ When giving Reviewer B and Reviewer C the choice between a visualisation of the 
 One major advantage of daily change is that scope-differences in the data are leveled out. While FTSE is over 20000 points in USD for example, Gold is only about 1200-1300 points. This means that including them in one graph with a continuous y-axis has a disadvantage:
 
 - If FTSE falls 1%, this is 200 points. If Gold also falls 1% on the same day, it is only about 12.5 points and therefore less visible in the visualisation. Using daily change as the y-axis accounts for that and portrays a 1% change of gold and FTSE in the same way.
-- A disadvantage of using daily change is that it does not portray the overall development of the indexes well. If FTSE falls 1% on one day (200 points) to 19800 and the next day gains 1% (198 points) to reach 19998, a reduction of 2 data points is not visible when using daily change but looks like it completely balanced itself out.
+- A disadvantage of using daily change is that it does not portray the overall development of the indexes well. If FTSE falls 1% on one day (200 points) to 19800 and the next day gains 1% (198 points) to reach 19998, a reduction of 2 data points is not visible when using daily change but instead looks like it completely balanced itself out.
 
 In the final visualisation, daily change was used because accounting for scope-differences of indexes was considered more important for the purpose of this visualisation than looking at the overall development.
 
-From the technical side, an adjustment was made through the help of a truly awesome udacity forum mentor: Before, object constancy was not implemented the right way. As a result, more lines were added when changing the currency lens. The existing lines of each index did not change, but stayed the same. The error in the code was that a wrong column in the csv was used to select the series of data to be portrayed. When the column name was changed to right one, object constancy worked. 
+From the technical side, an adjustment was made through the help of a truly awesome udacity forum mentor: Before, object constancy was not implemented the right way. As a result, more lines were added to the graph when changing the currency lens. The existing lines of each index did not change, but stayed the same. The error in the code was that a wrong column name in the csv was used to select the series of data to be portrayed. When the column name was changed to the one that marked the different currency to each index value, object constancy worked. 
 
 ## References
 
