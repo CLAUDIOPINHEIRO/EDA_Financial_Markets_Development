@@ -6,6 +6,9 @@ Basic Exploration: Development of selected Financial Markets during Brexit and U
 ## Final Visualisation
 The final visualisation can be accessed under: http://bl.ocks.org/MertonBoerlin/raw/ac1ef350c4b571a7a69b7f74d6249e92/
 
+
+![Alt text](/Screenshot.PNG)
+
 ## Summary
 
 This visualisation project began with a question: 
