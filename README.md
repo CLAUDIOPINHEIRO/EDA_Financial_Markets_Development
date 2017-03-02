@@ -23,7 +23,7 @@ Three main aspects in the data:
 
 2. If the currency lens is changed to British Pound an interesting effect can be observed. US Indexes gained in price and did not suffer losses during the Brexit Referendum. This can be explained by the British Pound falling in Price in regard to US Dollar. This drop in currency price was so strong for British Pound to US Dollars, that it outbalanced the drop of US Indexes, turning a daily negative change in USD to a positive change when looking through the lens of GBP.  
 
-3. Comparing the changes of financial market prices between the Brexit Referendum and the US Election, it seems like the US Election had "shocked" the markets less.
+3. The impact of the US Election on the markets still has to be determined with future data. 
 
 ## Process
 
